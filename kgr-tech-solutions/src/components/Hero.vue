@@ -14,20 +14,27 @@
       We create websites, business automation tools, and systems that help companies scale efficiently.
     </p>
 
-    <!-- Buttons -->
+    <!-- ✅ Single CTA Button -->
     <div class="hero-buttons">
-      <v-btn large class="hero-btn primary-btn mr-4">
-        Get Started
-      </v-btn>
-      <v-btn large outlined class="hero-btn secondary-btn">
-        Learn More
+      <v-btn large class="hero-btn primary-btn" @click="goToSolutions">
+        View Solutions
       </v-btn>
     </div>
   </v-container>
 </template>
 
 <script setup>
-import hero from '@/assets/hero.png' // Make sure this exists
+import hero from '@/assets/hero.png'
+
+// ✅ Navigate to solutions section or page
+const goToSolutions = () => {
+  const section = document.getElementById('solutions')
+  if (section) {
+    section.scrollIntoView({ behavior: 'smooth' })
+  } else {
+    window.location.href = '/solutions'
+  }
+}
 </script>
 
 <style scoped>
@@ -58,7 +65,7 @@ import hero from '@/assets/hero.png' // Make sure this exists
   z-index:0;
 }
 
-/* Make content appear above overlay */
+/* Content above overlay */
 .hero-title,
 .hero-subtitle,
 .hero-buttons {
@@ -69,16 +76,17 @@ import hero from '@/assets/hero.png' // Make sure this exists
 .hero-buttons {
   display: flex;
   justify-content: center;
-  gap: 1rem;
 }
 
-/* Buttons */
+/* Button */
 .hero-btn {
   font-weight: 600;
   text-transform: none;
   border-radius: 6px;
   transition: all 0.3s ease;
   box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  padding: 12px 28px;
+  font-size: 1rem;
 }
 
 /* Primary Button */
@@ -91,17 +99,6 @@ import hero from '@/assets/hero.png' // Make sure this exists
   background-color: #000 !important;
   color: #ffb300 !important;
   box-shadow: 0 6px 14px rgba(255,179,0,0.4);
-}
-
-/* Secondary Outlined Button */
-.secondary-btn {
-  border: 2px solid #ffb300;
-  color: #ffb300;
-}
-
-.secondary-btn:hover {
-  background-color: #ffb300 !important;
-  color: #000 !important;
-  box-shadow: 0 6px 14px rgba(255,179,0,0.4);
+  transform: translateY(-2px); /* 🔥 subtle lift */
 }
 </style>
