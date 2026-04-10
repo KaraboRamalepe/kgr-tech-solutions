@@ -1,24 +1,20 @@
 <template>
   <v-app-bar flat color="black" dark elevate-on-scroll>
-    <v-container class="d-flex align-center">
+    <v-container class="d-flex align-center justify-space-between">
 
-      <!-- Left: Logo -->
-      <div class="d-flex align-left">
-        <router-link to="/">
-          <img 
-            src="@/assets/kgrlogo.png" 
-            alt="KGR Logo" 
-            class="logo-img"
-          />
-        </router-link>
-      </div>
+      <!-- Logo -->
+      <router-link to="/">
+        <img 
+          src="@/assets/kgrlogo.png" 
+          alt="KGR Logo" 
+          class="logo-img"
+        />
+      </router-link>
 
-      <!-- Spacer to push nav links to the right -->
-      <v-spacer></v-spacer>
+      <!-- Navigation Links -->
+      <div class="d-flex align-center gap-4">
 
-      <!-- Right: Navigation Links -->
-      <v-row class="align-center" dense>
-
+        <!-- Home Icon -->
         <v-btn icon class="nav-btn no-underline" @click="goHome">
           <v-img
             :src="homeIcon"
@@ -77,49 +73,67 @@
                     size="small"
                     variant="text"
                     class="learn-more-btn"
-                    :href="solution.link"
+                    :to="solution.link"
                   >
                     Learn More
                   </v-btn>
                 </div>
-                <v-divider class="my-2" color="#ffb300"></v-divider>
+                <v-divider class="my-2"></v-divider>
               </v-col>
             </v-row>
           </v-card>
         </v-menu>
 
         <v-btn text class="nav-btn">Contact</v-btn>
-      </v-row>
+      </div>
+
     </v-container>
   </v-app-bar>
 </template>
 
 <script setup>
 import { ref, reactive } from 'vue'
+import { useRouter } from 'vue-router'
 import homeIcon from '@/assets/homeicon.png'
 
+import webapps from '@/assets/webapps.jpg'
+import salesforce from '@/assets/salesforce.png'
+import automation from '@/assets/automation.jpg'
+import ai from '@/assets/AI.webp'
+import frontend from '@/assets/frontend.webp'
+import fullstack from '@/assets/fullstack.jpg'
+import ux from '@/assets/ux.webp'
+import system from '@/assets/system.png'
+
+const router = useRouter()
 const menuOpen = ref(false)
 
-// Home click handler
+// Navigate to Solutions page
+const goSolutions = () => {
+  menuOpen.value = false
+  router.push('/solutions')
+}
+
+// Scroll to home section
 const goHome = () => {
   const section = document.getElementById('home')
   if (section) {
     section.scrollIntoView({ behavior: 'smooth' })
   } else {
-    window.location.href = '/'
+    router.push('/')
   }
 }
 
-// Solutions data with images
+// Solutions data
 const solutions = reactive([
-  { title: 'Web Applications', desc: 'Custom websites and landing pages.', link: '/solutions/web-applications', img: '@/assets/webapps.jpg' },
-  { title: 'Salesforce Solutions', desc: 'Automate CRM processes efficiently.', link: '/solutions/salesforce', img: '@/assets/salesforce.png' },
-  { title: 'Automation Workflows', desc: 'Boost productivity with smart automation.', link: '/solutions/automation', img: '@/assets/automation.jpg' },
-  { title: 'AI Powered Tools', desc: 'Leverage AI to enhance insights.', link: '/solutions/ai-tools', img: '@/assets/AI.webp' },
-  { title: 'Frontend Development', desc: 'Responsive, modern interfaces.', link: '/solutions/frontend', img: '@/assets/frontend.webp' },
-  { title: 'Full-Stack Systems', desc: 'End-to-end scalable systems.', link: '/solutions/fullstack', img: '@/assets/fullstack.jpg' },
-  { title: 'UI/UX Design', desc: 'Intuitive and user-friendly designs.', link: '/solutions/ui-ux', img: '@/assets/ux.webp' },
-  { title: 'System Integrations', desc: 'Connect your software seamlessly.', link: '/solutions/integrations', img: '@/assets/system.png' },
+  { title: 'Web Applications', desc: 'Custom websites and landing pages.', link: '/solutions/web-applications', img: webapps },
+  { title: 'Salesforce Solutions', desc: 'Automate CRM processes efficiently.', link: '/solutions/salesforce', img: salesforce },
+  { title: 'Automation Workflows', desc: 'Boost productivity with smart automation.', link: '/solutions/automation', img: automation },
+  { title: 'AI Powered Tools', desc: 'Leverage AI to enhance insights.', link: '/solutions/ai-tools', img: ai },
+  { title: 'Frontend Development', desc: 'Responsive, modern interfaces.', link: '/solutions/frontend', img: frontend },
+  { title: 'Full-Stack Systems', desc: 'End-to-end scalable systems.', link: '/solutions/fullstack', img: fullstack },
+  { title: 'UI/UX Design', desc: 'Intuitive and user-friendly designs.', link: '/solutions/ui-ux', img: ux },
+  { title: 'System Integrations', desc: 'Connect your software seamlessly.', link: '/solutions/integrations', img: system },
 ])
 </script>
 
@@ -143,7 +157,7 @@ const solutions = reactive([
   transform: translateX(-50%);
 }
 
-/* Hover */
+/* Hover underline */
 .nav-btn:hover {
   color: #FFD700 !important;
 }
@@ -152,12 +166,12 @@ const solutions = reactive([
   width: 80%;
 }
 
-/* ❌ Remove underline from icon */
+/* Remove underline from icons */
 .no-underline::after {
   display: none;
 }
 
-/* Mega Menu */
+/* Mega Menu Panel */
 .solutions-panel {
   background-color: #a6a3a3;
   color: #FFFFFF;
@@ -204,8 +218,9 @@ const solutions = reactive([
 .v-divider {
   border-color: #ffb300 !important;
 }
+
 .logo-img {
-  height: 140px; /* adjust size */
+  height: 140px;
   width: auto;
   cursor: pointer;
 }
