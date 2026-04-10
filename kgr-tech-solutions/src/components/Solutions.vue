@@ -1,18 +1,9 @@
 <template>
   <v-container fluid class="solutions-page pa-0">
 
-    <!-- 🔥 HERO SECTION -->
-    <div class="hero-section d-flex flex-column justify-center align-center text-center">
-      <div class="hero-overlay"></div>
-
-      <h1 class="hero-title">Our Solutions</h1>
-      <p class="hero-subtitle">
-        Empowering businesses with modern technology, automation, and intelligent systems.
-      </p>
-    </div>
-
     <!-- 🔥 SOLUTIONS GRID -->
     <v-container class="py-16">
+        <h1 class="text-h2 font-weight-bold mb-4 align-center">Our Solutions</h1>
       <v-row>
         <v-col
           v-for="(solution, i) in solutions"
