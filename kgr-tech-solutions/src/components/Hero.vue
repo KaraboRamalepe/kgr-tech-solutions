@@ -2,11 +2,18 @@
   <v-container
     fluid
     class="hero-container text-center d-flex flex-column justify-center align-center"
-    :style="{ backgroundImage: `url(${hero})` }" 
+    :style="{ backgroundImage: `url(${hero})` }"
   >
     <!-- Headline -->
     <h1 class="text-h2 font-weight-bold mb-4 hero-title">
-      Build Smart. Grow Faster.
+      <span
+        v-for="(char, i) in titleChars"
+        :key="i"
+        class="hero-letter"
+        :style="{ animationDelay: i * 0.06 + 's' }"
+      >
+        {{ char === ' ' ? '\u00A0' : char }}
+      </span>
     </h1>
 
     <!-- Subtext -->
@@ -14,30 +21,99 @@
       We create websites, business automation tools, and systems that help companies scale efficiently.
     </p>
 
-    <!-- ✅ Single CTA Button -->
+    <!-- CTA Button -->
     <div class="hero-buttons">
-      <v-btn large class="hero-btn primary-btn" @click="goToSolutions">
-        View Solutions
+      <v-btn
+        class="hero-btn primary-btn"
+        :loading="isLoading"
+        @click="goToSolutions"
+      >
+        {{ buttonText }}
       </v-btn>
     </div>
   </v-container>
 </template>
 
 <script setup>
+import { ref } from 'vue'
 import hero from '@/assets/hero.png'
 
-// ✅ Navigate to solutions section or page
+const title = "Build Smart. Grow Faster."
+const titleChars = title.split("")
+
+const isLoading = ref(false)
+const buttonText = ref("View Solutions")
+
 const goToSolutions = () => {
-  const section = document.getElementById('solutions')
-  if (section) {
-    section.scrollIntoView({ behavior: 'smooth' })
-  } else {
-    window.location.href = '/solutions'
-  }
+  if (isLoading.value) return
+
+  isLoading.value = true
+  buttonText.value = "Loading Solutions..."
+
+  setTimeout(() => {
+    const section = document.getElementById('solutions')
+
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth' })
+    } else {
+      window.location.href = '/solutions'
+    }
+
+    // reset after UX delay
+    setTimeout(() => {
+      isLoading.value = false
+      buttonText.value = "View Solutions"
+    }, 800)
+
+  }, 900)
 }
 </script>
 
 <style scoped>
+.hero-btn {
+  position: relative;
+  overflow: hidden;
+}
+
+/* subtle glow pulse while loading */
+.hero-btn.v-btn--loading {
+  box-shadow: 0 0 20px rgba(255, 179, 0, 0.4);
+}
+.hero-letter {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(20px);
+
+  /* gradient text */
+  background: linear-gradient(90deg, #ffb300, #ffffff, #ffb300);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  /* smooth glow movement (clean version) */
+  animation:
+    letterIn 0.6s ease forwards,
+    shimmer 6s linear infinite;
+}
+
+/* entry */
+@keyframes letterIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* smoother gradient flow */
+@keyframes shimmer {
+  0% {
+    background-position: 0% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
 .hero-container {
   min-height: 80vh;
   background-size: cover;
@@ -51,6 +127,10 @@ const goToSolutions = () => {
   justify-content: center;
   align-items: center;
   padding: 6rem 2rem;
+}
+.hero-title:hover .hero-letter {
+  transform: translateY(-2px);
+  transition: 0.2s ease;
 }
 
 /* Overlay */
